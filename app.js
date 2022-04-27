@@ -16,9 +16,10 @@ async function main() {
     (async () => {
         const database = require('./data/context/db');
         const Student = require('./data/entities/student');
+        const MyProfile = require('./data/entities/myprofile');
      
         try {
-            const result = await database.sync();
+            const result = await database.sync({ force: false,  alter: true });
     
         } catch (error) {
             console.info(error);
