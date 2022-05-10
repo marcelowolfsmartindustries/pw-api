@@ -56,8 +56,8 @@ exports.delete = async (req, res) => {
     console.info(id);
 
     await Student.destroy({
-        where: { 
-            id: id 
+        where: {
+            id: id
         }
     });
 

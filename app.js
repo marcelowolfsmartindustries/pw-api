@@ -16,7 +16,7 @@ async function main() {
     (async () => {
         const database = require('./data/context/db');
         const Student = require('./data/entities/student');
-        const MyProfile = require('./data/entities/myprofile');
+        const User = require('./data/entities/user');
      
         try {
             const result = await database.sync({ force: false,  alter: true });
