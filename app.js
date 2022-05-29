@@ -1,36 +1,20 @@
-require('dotenv').config();
+require("dotenv").config()
 
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const express = require('express');
+const cors = require("cors")
+const express = require("express")
 
-const router = require('./routes/index.js');
+const router = require("./routes/index.js")
+const database = require("./data/context/db")
 
-async function main() {
-    const app = express();
-    app.use(bodyParser.json());
-    app.use(cors());
+const port = process.env.PORT || 8080
 
-    app.use('/api/', router);
+const app = express()
 
-    (async () => {
-        const database = require('./data/context/db');
-        const Student = require('./data/entities/student');
-        const User = require('./data/entities/user');
-     
-        try {
-            const result = await database.sync({ force: false,  alter: true });
-    
-        } catch (error) {
-            console.info(error);
-        }
-    })();
-    
+app.use(express.json())
+app.use(cors())
 
-    const port = process.env.PORT || 8080;
-    app.listen(port, () => {
-        console.log('Express server listening on port', port)
-    });
-}
+app.use("/api", router)
 
-main();
+database.sync({ force: false, alter: true }).catch((e) => console.log(e))
+
+app.listen(port, () => console.log("Express server listening on port", port))
