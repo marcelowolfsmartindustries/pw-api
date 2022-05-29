@@ -1,47 +1,13 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken")
 
-const secret = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET
 
-exports.generateAccessToken = information => {
-    return jwt.sign(information, secret, { expiresIn: '7d' });
-};
+exports.generateAccessToken = (information) => jwt.sign(information, secret, { expiresIn: "7d" })
 
-exports.generateRefreshToken = information => {
-    const { id, hashedPw } = information;
-    return jwt.sign({ id }, secret + hashedPw, { expiresIn: '7d' });
-};
+exports.generateRefreshToken = ({ id, hashedPw }) => jwt.sign({ id }, secret + hashedPw, { expiresIn: "7d" })
 
-exports.certifyAccessToken = token => {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, secret, (err, decoded) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(decoded);
-            }
-        });
-    });
-};
+exports.certifyAccessToken = (token) => jwt.verify(token, secret)
 
-exports.certifyRefreshToken = (token, hashedPw) => {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, secret + hashedPw, (err, decoded) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(decoded);
-            }
-        });
-    });
-};
+exports.certifyRefreshToken = (token, hashedPw) => jwt.verify(token, secret + hashedPw)
 
-exports.decodedRefreshToken = token => {
-    return new Promise((resolve, reject) => {
-        try {
-            const decoded = jwt.decode(token);
-            resolve(decoded);
-        } catch (err) {
-            reject(err);
-        }
-    });
-};
+exports.decodedRefreshToken = (token) => jwt.decode(token)
